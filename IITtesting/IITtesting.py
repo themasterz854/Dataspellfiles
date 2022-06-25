@@ -7,6 +7,7 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.models import Sequential
 from matplotlib import patches
+from matplotlib import figure
 
 get_ipython().run_line_magic('matplotlib', 'inline')
 
@@ -45,40 +46,10 @@ def plot(plotpath):
     print("done")
 
 
-train = pd.read_csv("train_anno_kaggle.csv")
+train = pd.read_csv("train_anno_iith_dmu.csv")
 train['filepath'].nunique()
 train['class_name'].value_counts()
-datasetpath = "C:/Users/Zaid/Desktop/Datasets/Kaggle/"
-plotpath1 = datasetpath + "phonetrain/c1/"
-plotpath2 = datasetpath + "phonetrain/c2/"
-plotpath3 = datasetpath + "phonetrain/c3/"
-plotpath4 = datasetpath + "phonetrain/c4/"
-''' doing the plotting
+datasetpath = "C:/Users/Zaid/Desktop/Datasets/IIT/"
+plotpath1 = datasetpath + "trainImages/"
+
 plot(plotpath1)
-gc.collect()
-plot(plotpath2)
-gc.collect()
-plot(plotpath3)
-gc.collect()
-plot(plotpath4)
-gc.collect()
-
-# iterating over the image for different objects
-'''
-resnet_model = Sequential()
-
-pretrained_model = tf.keras.applications.ResNet50(include_top=False,
-                                                  input_shape=(180, 180, 3),
-                                                  pooling='avg', classes=5,
-                                                  weights='imagenet')
-for layer in pretrained_model.layers:
-    layer.trainable = False
-
-resnet_model.add(pretrained_model)
-resnet_model.add(Flatten())
-resnet_model.add(Dense(512, activation='relu'))
-resnet_model.add(Dense(5, activation='softmax'))
-
-resnet_model.summary()
-
-classes = ['phone', 'no_phone']
