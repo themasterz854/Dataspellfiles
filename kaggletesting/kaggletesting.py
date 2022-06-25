@@ -1,10 +1,11 @@
+import os
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import tensorflow as tf
 from keras.layers import Dense
 from keras.layers import Flatten
 from keras.models import Sequential
-
 from matplotlib import patches
 
 get_ipython().run_line_magic('matplotlib', 'inline')
