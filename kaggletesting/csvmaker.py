@@ -3,7 +3,7 @@ import os
 
 header = ['filepath', 'xmin', 'ymin', 'xmax', 'ymax', 'class_name']
 data = []
-datasetpath = "C:/Users/Zaid/Desktop/Datasets/Kaggle/"
+datasetpath = "C:/Users/Zaid/Dataspellfiles/kaggletesting/plottedimages/"
 imgpath1 = datasetpath + "nophonetrain/c0/"
 imgpath2 = datasetpath + "nophonetrain/c5/"
 imgpath3 = datasetpath + "nophonetrain/c6/"
@@ -30,12 +30,12 @@ with open('combined.csv', 'w', encoding='UTF8', newline='') as f:
             writer.writerow(data)
             data = []
     f.close()
-
 with open('train_anno_kaggle.csv', 'r') as f:
     reader1 = csv.reader(f)
     with open('combined.csv', 'a', newline='') as f_object:
         writer_object = csv.writer(f_object)
         for row in reader1:
+            row[0] = row[0].replace(".jpg",".png")
             writer_object.writerow(row)
         f_object.close()
     f.close()

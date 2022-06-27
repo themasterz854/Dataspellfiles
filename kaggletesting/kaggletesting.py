@@ -1,34 +1,51 @@
-import os
-import gc
-import matplotlib.pyplot as plt
-import pandas as pd
+import cv2
+import keras
+import numpy as np
 import tensorflow as tf
-from keras.layers import Dense
-from keras.layers import Flatten
 from keras.models import Sequential
-from matplotlib import patches
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+class_names = ["nophone", "Phone"]
 
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-
-train = pd.read_csv("train_anno_kaggle.csv")
-train['filepath'].nunique()
-train['class_name'].value_counts()
 resnet_model = Sequential()
+img_height, img_width = 180, 180
+batch_size = 64
+train_dir = "./trainimages/"
 
-pretrained_model = tf.keras.applications.ResNet50(include_top=False,
-                                                  input_shape=(180, 180, 3),
-                                                  pooling='avg', classes=5,
-                                                  weights='imagenet')
-for layer in pretrained_model.layers:
-    layer.trainable = False
 
-resnet_model.add(pretrained_model)
-resnet_model.add(Flatten())
-resnet_model.add(Dense(512, activation='relu'))
-resnet_model.add(Dense(5, activation='softmax'))
-
+resnet_model = keras.models.load_model("kagglemodel")
 resnet_model.summary()
 
-classes = ['phone', 'no_phone']
+
+
+image = cv2.imread("C:/Users/Zaid/Desktop/Datasets/Kaggle/test/img_8.jpg")
+image_resized = cv2.resize(image, (img_height, img_width))
+image = np.expand_dims(image_resized, axis=0)
+
+pred = resnet_model.predict(image)
+output_class = class_names[np.argmax(pred)]
+print("The predicted class is", output_class)
+
+image = cv2.imread("C:/Users/Zaid/Desktop/Datasets/Kaggle/test/img_9.jpg")
+image_resized = cv2.resize(image, (img_height, img_width))
+image = np.expand_dims(image_resized, axis=0)
+
+pred = resnet_model.predict(image)
+output_class = class_names[np.argmax(pred)]
+print("The predicted class is", output_class)
+
+image = cv2.imread("C:/Users/Zaid/Desktop/Datasets/Kaggle/test/img_84.jpg")
+image_resized = cv2.resize(image, (img_height, img_width))
+image = np.expand_dims(image_resized, axis=0)
+
+pred = resnet_model.predict(image)
+output_class = class_names[np.argmax(pred)]
+print("The predicted class is", output_class)
+image = cv2.imread("C:/Users/Zaid/Desktop/Datasets/Kaggle/test/img_3.jpg")
+image_resized = cv2.resize(image, (img_height, img_width))
+image = np.expand_dims(image_resized, axis=0)
+
+pred = resnet_model.predict(image)
+output_class = class_names[np.argmax(pred)]
+print("The predicted class is", output_class)
