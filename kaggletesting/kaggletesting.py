@@ -3,12 +3,11 @@ import keras
 import numpy as np
 import tensorflow as tf
 from keras.models import Sequential
-
+from datasets import load_metric
 class_names = ["nophone", "Phone"]
 
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-resnet_model = Sequential()
 img_height, img_width = 180, 180
 batch_size = 64
 train_dir = "./trainimages/"

@@ -1,5 +1,5 @@
 import pathlib
-
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from keras import layers
 from keras.models import Sequential
@@ -19,9 +19,8 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     subset="training",
     seed=123,
     image_size=(img_height, img_width),
-    batch_size=batch_size
-    # label_mode="categorical" for categorical cross entroypy
-)
+    batch_size=batch_size,
+    label_mode="categorical")
 
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     data_dir,
@@ -29,9 +28,8 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     subset="validation",
     seed=123,
     image_size=(img_height, img_width),
-    batch_size=batch_size
-    # label_mode="categorical" for categorical cross entroypy
-)
+    batch_size=batch_size,
+    label_mode="categorical")
 
 resnet_model = Sequential()
 
@@ -50,13 +48,12 @@ resnet_model.add(layers.Dense(5, activation='softmax'))
 
 resnet_model.summary()
 
-resnet_model.compile(optimizer=Adam(learning_rate=0.001), loss='sparse_categorical_crossentropy',
-                     metrics=['accuracy'])  #sparse categorical if not using label categorical
+resnet_model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
-# resnet_model= keras.models.load_model("flower")
+resnet_model = tf.keras.models.load_model("flower")
 
-history = resnet_model.fit(train_ds, validation_data=val_ds, epochs=10)
-'''
+history = resnet_model.fit(train_ds, validation_data=val_ds, epochs=60)
+
 resnet_model.save("flower")
 
 fig1 = plt.gcf()
@@ -69,5 +66,3 @@ plt.ylabel('Accuracy')
 plt.xlabel('Epochs')
 plt.legend(['train', 'validation'])
 plt.show()
-
-'''
